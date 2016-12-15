@@ -1,10 +1,18 @@
 class User < ApplicationRecord
+
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable and :omniauthable
   def is_member_of?(group)
       participated_groups.include?(group)
     end
+    
+    def join!(group)
+      participated_groups << group
+    end
 
+    def quit!(group)
+      participated_groups.delete(group)
+    end
 has_many :group
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :trackable, :validatable
